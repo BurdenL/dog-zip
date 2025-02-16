@@ -1,9 +1,9 @@
 use std::env;
 use std::fs::{self, File};
-use std::io::{BufReader};
+use std::io::BufReader;
 use std::path::{Path, PathBuf};
-use zip::read::ZipArchive;
 use unrar::Archive;
+use zip::read::ZipArchive;
 
 /// 获取解压目标目录（与文件同名的文件夹）
 fn get_output_dir(file_path: &str) -> PathBuf {
@@ -45,7 +45,8 @@ fn unrar_file(rar_path: &str) -> Result<(), String> {
     fs::create_dir_all(&output_dir).map_err(|e| format!("无法创建目录: {:?}", e))?;
 
     let archive = Archive::new(rar_path.to_string());
-    let entries = archive.extract_to(output_dir.to_str().unwrap().into())
+    let entries = archive
+        .extract_to(output_dir.to_str().unwrap().into())
         .map_err(|e| format!("无法打开 RAR 文件: {:?}", e))?;
 
     for entry in entries {
